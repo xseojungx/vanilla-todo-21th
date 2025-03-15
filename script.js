@@ -1,8 +1,10 @@
-import { initialTagData, initialTodos, color } from "./data.js"; // data.js 파일에서 tags 배열 가져오기
+import { initialTagData, initialTodos, color } from "./data.js";
 
 document.addEventListener("DOMContentLoaded", () => {
   let tags = JSON.parse(sessionStorage.getItem("tags")) || [];
   let todos = JSON.parse(sessionStorage.getItem("todos")) || [];
+
+  /****** 🍀 초기화 *********/
   const initial = () => {
     // 태그 초기화
     if (!tags || tags.length === 0) {
@@ -17,7 +19,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   };
 
-  /****** 🍀 우측 상단 날짜 *********/
+  /****** 🍀 우측 상단 날짜 핸들링 *********/
   const today = new Date();
   let date = document.createElement("p");
   //css 입히기
@@ -36,7 +38,6 @@ document.addEventListener("DOMContentLoaded", () => {
   /******** 🍀 날짜, 디데이 포메팅 *******/
   // D-Day 계산 함수
   const getDdayInfo = (dateString) => {
-    const today = new Date(); // 오늘 날짜
     today.setHours(0, 0, 0, 0); // 시간 초기화 (자정 기준)
 
     const targetDate = new Date(dateString); // 목표 날짜
@@ -52,7 +53,7 @@ document.addEventListener("DOMContentLoaded", () => {
     } else if (diffDays === 0) {
       dDayText = "D-Day";
     } else {
-      dDayText = `D+${Math.abs(diffDays)}`;
+      dDayText = `D+${Math.abs(diffDays)}`; //음수이므로 절댓값 처리
     }
 
     //날짜 형식 포켓팅
@@ -63,6 +64,7 @@ document.addEventListener("DOMContentLoaded", () => {
         day: "2-digit",
       })
       .replace(/-/g, ".");
+
     return {
       dDayText,
       formattedDate,
@@ -71,9 +73,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
   /******** 🍀 입력창 태그 드롭다운 랜더링 *******/
   const dropDown = document.getElementById("add-tag");
-  const renderDropDownList = () => {
-    dropDown.innerHTML = "";
 
+  const renderDropDownList = () => {
+    dropDown.innerHTML = ""; //중복 랜더링 방지를 위한 초기화
     tags.forEach((data) => {
       const option = document.createElement("option");
       option.value = data.name;
@@ -91,7 +93,7 @@ document.addEventListener("DOMContentLoaded", () => {
       return alert("태그 이름을 입력해주세요!");
     }
 
-    // 중복 확인
+    // 태그 중복 추가 방지를 위한 중복 확인
     const isDuplicate = tags.some((tag) => tag.name === tagName);
     if (isDuplicate) {
       return alert("이미 존재하는 태그입니다.");
@@ -111,6 +113,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // 투두 배열에 추가
     todos.push({ tag: tagName, todos: [] });
+
     //투두 스토리지 업데이트
     sessionStorage.setItem("todos", JSON.stringify(todos));
 
@@ -179,7 +182,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   /******** 🍀 투두 랜더링 *******/
   // 투두 리스트 렌더링
-
   const renderTodos = () => {
     todos.forEach((todoData) => {
       // 태그에 맞는 ul을 찾음

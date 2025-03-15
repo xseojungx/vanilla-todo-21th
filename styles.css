@@ -9,7 +9,6 @@ body {
   align-items: center;
   height: 100vh;
   flex-direction: column;
-  transition: background 0.3s ease;
 }
 
 .app-container {
@@ -17,9 +16,9 @@ body {
   padding: 80px 0 24px;
   box-sizing: border-box;
   text-align: center;
-  transition: background 0.3s ease, color 0.3s ease;
 }
 
+/*  헤더 */
 header {
   position: fixed;
   width: 100vw;
@@ -31,16 +30,11 @@ header {
   background-color: #d1dceb;
   z-index: 1;
 }
-/* 🎨 헤더 */
+
 header h1 {
   font-size: 21px;
   color: #255a9b;
   font-weight: 600;
-}
-
-#date-display {
-  font-size: 0.9rem;
-  color: #747584;
 }
 
 #header-div {
@@ -50,8 +44,13 @@ header h1 {
   justify-content: right;
   align-items: center;
 }
+/* 헤더 날짜 */
+#date-display {
+  font-size: 0.9rem;
+  color: #747584;
+}
 
-/* 🎯 투두 입력 영역 */
+/* 투두 입력 영역 */
 .todo-input-section {
   display: flex;
   flex-direction: column;
@@ -62,7 +61,7 @@ header h1 {
   box-sizing: border-box;
 }
 
-/* 📝 할 일 입력 칸 */
+/* 할 일 입력 칸 */
 .input-group {
   display: flex;
   gap: 8px;
@@ -109,7 +108,7 @@ header h1 {
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
 }
 
-/* 📅 날짜 & 태그 입력 */
+/* 날짜 & 태그 입력 */
 .meta-group {
   display: flex;
   justify-content: space-between;
@@ -206,21 +205,7 @@ header h1 {
   text-align: left;
 }
 
-#single-todo {
-  display: flex;
-  height: 40px;
-  background-color: #255a9b;
-}
-#single-todo-title {
-  display: flex;
-  justify-content: space-between;
-}
-#single-todo-title span {
-  font-size: 0.9rem;
-  color: #292929;
-}
-
-/* 🔽 푸터 */
+/* 푸터 */
 footer {
   margin-top: 20px;
   font-size: 0.8rem;
@@ -301,7 +286,7 @@ main {
   width: 100%;
 }
 
-/* ✅ 체크박스 */
+/* 체크박스 */
 .todo-checkbox {
   width: 1rem;
   height: 1rem;
@@ -318,13 +303,7 @@ main {
   color: #747584;
 }
 
-.todo-date:focus {
-  outline: none;
-  background: rgba(255, 255, 255, 0.8);
-}
-
-/* 🌟 투두 리스트 텍스트 */
-
+/* 투두 리스트 텍스트 */
 .todo-text {
   flex: 1;
   color: #3b3b3b;
