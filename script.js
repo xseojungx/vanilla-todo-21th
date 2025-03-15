@@ -109,6 +109,11 @@ document.addEventListener("DOMContentLoaded", () => {
     // 세션 스토리지 업데이트
     sessionStorage.setItem("tags", JSON.stringify(tags));
 
+    // 투두 배열에 추가
+    todos.push({ tag: tagName, todos: [] });
+    //투두 스토리지 업데이트
+    sessionStorage.setItem("todos", JSON.stringify(todos));
+
     console.log("새로운 태그 추가:", newTag);
 
     // 드롭다운 및 태그 리스트 업데이트
