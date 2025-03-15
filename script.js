@@ -129,25 +129,42 @@ document.addEventListener("DOMContentLoaded", () => {
 
   /******** 🍀 태그 별 상자 랜더링 *******/
   const tagList = document.getElementById("todo-list-container");
-  //  태그 리스트 업데이트 함수
-  const renderSingleTagContainer = (newTag) => {
+
+  // 태그 컨테이너 생성 공통 함수
+  // 처음에 innerHtml 사용했는데 찾아보니 보안상 위험하다고 해서 다시 만듬
+  const createTagContainerElement = (tagData) => {
     // 가장 바깥 리스트 감싸는 div 생성
     const todoList = document.createElement("div");
-    //클래스, id, 배경색 추가
+    // 클래스, 배경색 설정
     todoList.classList.add("todo-list");
-    todoList.style.backgroundColor = newTag.background;
+    todoList.style.backgroundColor = tagData.background;
 
-    //리스트 제목 추가
+    // 리스트 제목 추가
     const tagName = document.createElement("h2");
-    tagName.textContent = newTag.name;
+    tagName.textContent = tagData.name;
 
-    //리스트 추가
+    // 태그를 위한 ul 요소 생성
     const ul = document.createElement("ul");
-    ul.id = newTag.name;
+    ul.id = tagData.name;
 
     // append
     todoList.append(tagName, ul);
-    tagList.appendChild(todoList);
+    return todoList;
+  };
+
+  // 단일 태그 컨테이너 렌더링 함수
+  const renderSingleTagContainer = (newTag) => {
+    const container = createTagContainerElement(newTag);
+    tagList.appendChild(container);
+  };
+
+  // 모든 태그 렌더링 함수
+  const renderTags = () => {
+    // 기존 내용 초기화
+    tagList.innerHTML = "";
+    tags.forEach((data) => {
+      tagList.appendChild(createTagContainerElement(data));
+    });
   };
 
   // 태그 배경 랜덤 색상 생성 함수
@@ -155,32 +172,60 @@ document.addEventListener("DOMContentLoaded", () => {
     return color[Math.floor(Math.random() * color.length)];
   };
 
-  // 처음에 innerHtml 사용했는데 찾아보니 보안상 위험하다고 해서 다시 만듬
-  const renderTags = () => {
-    //초기 목록 초기화
-    tagList.innerHTML = "";
-    tags.forEach((data) => {
-      // 가장 바깥 리스트 감싸는 div 생성
-      const todoList = document.createElement("div");
-      //클래스, id, 배경색 추가
-      todoList.classList.add("todo-list");
-      todoList.style.backgroundColor = data.background;
+  /******** 🍀 투두 랜더링 *******/
+  // 공통된 투두 아이템을 생성하는 함수
+  const createTodoElement = (todo) => {
+    // 새로운 li 요소 생성
+    const li = document.createElement("li");
+    li.id = todo.id;
 
-      //리스트 제목 추가
-      const tagName = document.createElement("h2");
-      tagName.textContent = data.name;
+    //윗줄
+    const textDiv = document.createElement("div");
 
-      //리스트 추가
-      const ul = document.createElement("ul");
-      ul.id = data.name;
+    // 체크박스 추가
+    const checkBox = document.createElement("input");
+    checkBox.type = "checkbox";
+    checkBox.checked = todo.isComplete;
+    checkBox.classList.add("todo-checkbox");
+    checkBox.addEventListener("change", toggleComplete);
 
-      // append
-      todoList.append(tagName, ul);
-      tagList.appendChild(todoList);
-    });
+    // 할 일 내용 추가
+    const todoText = document.createElement("span");
+    todoText.textContent = todo.content;
+    todoText.classList.add("todo-text");
+
+    //아랫줄
+    const dateDiv = document.createElement("div");
+    dateDiv.classList.add("todo-date-div");
+    if (todo.date) {
+      // 날짜 포매팅
+      const { dDayText, formattedDate } = getDdayInfo(todo.date);
+
+      // 디데이
+      const dDaySpan = document.createElement("span");
+      dDaySpan.textContent = dDayText;
+
+      // 날짜
+      const dateSpan = document.createElement("span");
+      dateSpan.textContent = formattedDate;
+
+      dateDiv.append(dDaySpan, dateSpan);
+    }
+
+    // 삭제 버튼
+    const deleteSpan = document.createElement("span");
+    deleteSpan.textContent = "삭제";
+    deleteSpan.classList.add("delete-btn");
+    deleteSpan.addEventListener("click", deleteTodo);
+
+    // 요소 조립
+    dateDiv.appendChild(deleteSpan);
+    textDiv.append(checkBox, todoText);
+    li.append(textDiv, dateDiv);
+
+    return li;
   };
 
-  /******** 🍀 투두 랜더링 *******/
   // 투두 리스트 렌더링
   const renderTodos = () => {
     todos.forEach((todoData) => {
@@ -189,101 +234,17 @@ document.addEventListener("DOMContentLoaded", () => {
       if (!ul) return; // 해당 태그가 없으면 건너뜀
 
       todoData.todos.forEach((todo) => {
-        // 새로운 li 요소 생성
-        const li = document.createElement("li");
-        li.id = todo.id;
-
-        //윗줄
-        const textDiv = document.createElement("div");
-        //체크박스 추가
-        const checkBox = document.createElement("input");
-        checkBox.type = "checkbox";
-        checkBox.checked = todo.isComplete;
-        checkBox.classList.add("todo-checkbox");
-        checkBox.addEventListener("change", toggleComplete);
-        //할 일 내용 추가
-        const todoText = document.createElement("span");
-        todoText.textContent = todo.content;
-        todoText.classList.add("todo-text");
-
-        //아랫줄
-        const dateDiv = document.createElement("div");
-        dateDiv.classList.add("todo-date-div");
-        if (todo.date) {
-          //날짜 포메팅
-          const { dDayText, formattedDate } = getDdayInfo(todo.date);
-          // 디데이
-          const dDaySpan = document.createElement("span");
-          dDaySpan.textContent = dDayText;
-          //날짜
-          const dateSpan = document.createElement("span");
-          dateSpan.textContent = formattedDate;
-
-          dateDiv.append(dDaySpan, dateSpan);
-        }
-
-        //삭제 버튼
-        const deleteSpan = document.createElement("span");
-        deleteSpan.textContent = "삭제";
-        deleteSpan.classList.add("delete-btn");
-        deleteSpan.addEventListener("click", deleteTodo);
-
-        // div에 추가
-        dateDiv.appendChild(deleteSpan);
-        textDiv.append(checkBox, todoText);
-        li.append(textDiv, dateDiv);
-        ul.appendChild(li);
+        ul.appendChild(createTodoElement(todo));
       });
     });
   };
 
+  // 단일 투두 렌더링
   const renderSingleTodo = (tag, newTodo) => {
     const ul = document.getElementById(tag);
+    if (!ul) return;
 
-    // 새로운 li 요소 생성
-    const li = document.createElement("li");
-    li.id = newTodo.id;
-
-    //윗줄
-    const textDiv = document.createElement("div");
-    //체크박스 추가
-    const checkBox = document.createElement("input");
-    checkBox.type = "checkbox";
-    checkBox.checked = newTodo.isComplete;
-    checkBox.classList.add("todo-checkbox");
-    checkBox.addEventListener("change", toggleComplete);
-    //할 일 내용 추가
-    const todoText = document.createElement("span");
-    todoText.textContent = newTodo.content;
-    todoText.classList.add("todo-text");
-
-    //아랫줄
-    const dateDiv = document.createElement("div");
-    dateDiv.classList.add("todo-date-div");
-    if (newTodo.date) {
-      //날짜 포메팅
-      const { dDayText, formattedDate } = getDdayInfo(newTodo.date);
-      // 디데이
-      const dDaySpan = document.createElement("span");
-      dDaySpan.textContent = dDayText;
-      //날짜
-      const dateSpan = document.createElement("span");
-      dateSpan.textContent = formattedDate;
-
-      dateDiv.append(dDaySpan, dateSpan);
-    }
-
-    //삭제 버튼
-    const deleteSpan = document.createElement("span");
-    deleteSpan.textContent = "삭제";
-    deleteSpan.classList.add("delete-btn");
-    deleteSpan.addEventListener("click", deleteTodo);
-
-    // div에 추가
-    dateDiv.appendChild(deleteSpan);
-    textDiv.append(checkBox, todoText);
-    li.append(textDiv, dateDiv);
-    ul.appendChild(li);
+    ul.appendChild(createTodoElement(newTodo));
   };
 
   const addButton = document.getElementById("add-todo");
