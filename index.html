@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>To-Do List</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <!--글씨 추가-->
+    <link
+      href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <header>
+      <h1>TO-DO</h1>
+      <div id="header-div"></div>
+    </header>
+    <div class="app-container">
+      <section class="todo-input-section">
+        <div class="input-group">
+          <input
+            type="text"
+            id="todo-input-text"
+            placeholder="할 일을 입력하세요"
+          />
+          <button id="add-todo">+</button>
+        </div>
+        <div class="meta-group">
+          <input type="date" id="todo-input-date" />
+          <select id="add-tag"></select>
+        </div>
+        <div class="new-tag">
+          <input type="text" id="tag-input-text" placeholder="태그 추가" />
+          <button id="add-new-tag">+</button>
+        </div>
+      </section>
+
+      <main>
+        <!-- 태그별 투두 리스트 -->
+        <div id="todo-list-container"></div>
+      </main>
+
+      <footer>
+        <p>© 한서정 세오스 1주차 과제</p>
+      </footer>
+    </div>
+
+    <script src="script.js" type="module"></script>
+  </body>
+</html>

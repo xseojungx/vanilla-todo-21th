@@ -1,0 +1,336 @@
+/* 🌟 기본 모드 스타일 (라이트모드) */
+body {
+  font-family: "Pretendard";
+  background: linear-gradient(135deg, #f3f4f6 0%, #e3e7eb 100%);
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  height: 100vh;
+  flex-direction: column;
+  transition: background 0.3s ease;
+}
+
+.app-container {
+  width: 100%;
+  padding: 80px 0 24px;
+  box-sizing: border-box;
+  text-align: center;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+header {
+  position: fixed;
+  width: 100vw;
+  height: 60px;
+  display: flex;
+  top: 0;
+  justify-content: center;
+  align-items: center;
+  background-color: #d1dceb;
+  z-index: 1;
+}
+/* 🎨 헤더 */
+header h1 {
+  font-size: 21px;
+  color: #255a9b;
+  font-weight: 600;
+}
+
+#date-display {
+  font-size: 0.9rem;
+  color: #747584;
+}
+
+#header-div {
+  display: flex;
+  position: fixed;
+  right: 10px;
+  justify-content: right;
+  align-items: center;
+}
+
+/* 🎯 투두 입력 영역 */
+.todo-input-section {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 20px;
+  width: 100%;
+  padding: 10px 15%;
+  box-sizing: border-box;
+}
+
+/* 📝 할 일 입력 칸 */
+.input-group {
+  display: flex;
+  gap: 8px;
+}
+/*투두 입력 창*/
+.input-group input {
+  flex: 1;
+  padding: 14px;
+  font-size: 1rem;
+  border: none;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(10px);
+  transition: 0.2s;
+}
+/*투두 입력 창 포커스*/
+.input-group input:focus {
+  outline: none;
+  background: rgba(255, 255, 255, 0.5);
+  box-shadow: 0px 0px 5px rgba(76, 154, 207, 0.3);
+}
+
+/* 추가 버튼 */
+.input-group button {
+  border: none;
+  height: 2.5rem;
+  width: 2.5rem;
+  font-size: 1.3rem;
+  background: #b5d6eb;
+  cursor: pointer;
+  transition: 0.3s;
+  border-radius: 50%;
+}
+
+.input-group button:hover {
+  transform: rotate(90deg);
+  background: #4c9acf;
+  color: white;
+  cursor: pointer;
+  transition: 0.8s;
+  border-radius: 50%;
+  /*왜 들어갈 때 트렌지션 안 됨*/
+  transition: cubic-bezier(0.075, 0.82, 0.165, 1);
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* 📅 날짜 & 태그 입력 */
+.meta-group {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.meta-group input {
+  width: 60%;
+  padding: 12px;
+  font-size: 0.9rem;
+  border: none;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.3);
+  transition: 0.2s;
+}
+.meta-group input:focus {
+  outline: none;
+  background: rgba(255, 255, 255, 0.5);
+  box-shadow: 0px 0px 5px rgba(76, 154, 207, 0.3);
+}
+#add-tag {
+  width: 40%;
+  padding: 12px;
+  font-size: 0.9rem;
+  font-size: 1rem;
+  border: none;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.3);
+  transition: 0.2s;
+}
+
+#add-tag:focus {
+  outline: none;
+  background: rgba(255, 255, 255, 0.5);
+  box-shadow: 0px 0px 5px rgba(76, 154, 207, 0.3);
+}
+#default-selected {
+  font-size: 0.8rem;
+  color: #666;
+}
+
+.meta-group input:focus {
+  outline: none;
+  background: rgba(255, 255, 255, 0.5);
+}
+
+.new-tag {
+  display: flex;
+  font-size: 0.8rem;
+  gap: 4px;
+  width: 100%;
+  justify-content: flex-end;
+}
+
+.new-tag input {
+  width: 100px;
+  height: 1.2rem;
+  border: none;
+  border-radius: 5px;
+  background: rgba(255, 255, 255, 0.3);
+  transition: 0.2s;
+}
+.new-tag button {
+  border: none;
+  height: 1.2rem;
+  width: 1.2rem;
+  background: #d0d7f1;
+  cursor: pointer;
+  transition: 0.3s;
+  border-radius: 5px;
+}
+
+/* 📌 투두 리스트 */
+.todo-list-wrapper {
+  margin-top: 20px;
+  min-width: 90%;
+  display: flex;
+  border-color: #1e1e1e;
+  flex-direction: column;
+}
+
+#todo-list {
+  border-color: #1e1e1e;
+  width: 20vw;
+  backdrop-filter: blur(12px);
+  background: rgba(255, 255, 255, 0.15);
+  box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 10px;
+}
+
+#todo-list p {
+  color: #1e1e1e;
+  text-align: left;
+}
+
+#single-todo {
+  display: flex;
+  height: 40px;
+  background-color: #255a9b;
+}
+#single-todo-title {
+  display: flex;
+  justify-content: space-between;
+}
+#single-todo-title span {
+  font-size: 0.9rem;
+  color: #292929;
+}
+
+/* 🔽 푸터 */
+footer {
+  margin-top: 20px;
+  font-size: 0.8rem;
+  color: #666;
+}
+
+main {
+  display: flex;
+  justify-content: center;
+}
+
+/* 투두 리스트 컨테이너 */
+#todo-list-container {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  gap: 16px;
+  padding: 20px;
+  overflow-x: auto;
+  white-space: nowrap;
+  scrollbar-width: thin;
+  scrollbar-color: #bbb transparent;
+}
+
+/* 태그별 투두 리스트 */
+.todo-list {
+  width: 280px;
+  min-height: 60vh;
+  padding: 8px 16px 0;
+  border-radius: 12px;
+  box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease;
+  flex-shrink: 0;
+  box-sizing: border-box;
+}
+
+.todo-list:hover {
+  transform: translateY(-3px);
+}
+
+/* 투두 리스트 제목 */
+.todo-list h2 {
+  font-size: 1.1rem;
+  margin-bottom: 10px;
+  text-align: left;
+  color: #3b3b3b;
+  font-weight: 500;
+}
+
+.todo-list ul {
+  list-style: none;
+  padding: 0;
+}
+
+/*투두 하나*/
+.todo-list li {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-between;
+  background: rgba(255, 255, 255, 0.3);
+  margin: 6px 0;
+  padding: 10px;
+  gap: 4px;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: background 0.2s ease;
+}
+
+.todo-list li:hover {
+  background: rgba(255, 255, 255, 0.7);
+}
+
+.todo-list div {
+  display: flex;
+  align-items: flex-start;
+  width: 100%;
+}
+
+/* ✅ 체크박스 */
+.todo-checkbox {
+  width: 1rem;
+  height: 1rem;
+  cursor: pointer;
+  accent-color: #255a9b;
+}
+
+.todo-date-div {
+  justify-content: end;
+  gap: 0.4rem;
+}
+.todo-date-div span {
+  font-size: 0.8rem;
+  color: #747584;
+}
+
+.todo-date:focus {
+  outline: none;
+  background: rgba(255, 255, 255, 0.8);
+}
+
+/* 🌟 투두 리스트 텍스트 */
+
+.todo-text {
+  flex: 1;
+  color: #3b3b3b;
+  word-break: break-word; /* 긴 단어가 있으면 줄바꿈 */
+  overflow-wrap: break-word; /* 박스 안에서 줄바꿈 */
+  white-space: normal;
+  line-height: 1.4;
+  text-align: left;
+  margin-left: 4px;
+}
