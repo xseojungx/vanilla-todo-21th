@@ -30,6 +30,10 @@ const initialTagData = [
     name: "과제",
     background: "#E3EAF5",
   },
+  {
+    name: "일정",
+    background: "#C6D3EE",
+  },
 ];
 const color = [
   "#E3EAF5",
@@ -87,6 +91,31 @@ const initialTodos = [
         date: "2025-03-15",
         isComplete: false,
       },
+      {
+        id: 3,
+        content:
+          "우측 상단의 '태그 추가'를 사용해서 새로운 태그를 추가해보세요!",
+        date: "2025-03-15",
+        isComplete: false,
+      },
+      {
+        id: 4,
+        content: "새로운 할일을 추가해보세요! 날짜와 태그 지정이 가능합니다 :)",
+        date: "2025-03-15",
+        isComplete: false,
+      },
+      {
+        id: 5,
+        content: "체크박스를 클릭하면 투두가 완료/미완료 처리 됩니다.",
+        date: "2025-03-15",
+        isComplete: false,
+      },
+      {
+        id: 6,
+        content: "더이상 필요 없는 투두는 '삭제' 버튼을 눌러주세요!",
+        date: "2025-03-15",
+        isComplete: false,
+      },
     ],
   },
   {
@@ -99,6 +128,10 @@ const initialTodos = [
         isComplete: false,
       },
     ],
+  },
+  {
+    tag: "일정",
+    todos: [],
   },
 ];
 
