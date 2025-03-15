@@ -16,6 +16,7 @@ document.addEventListener("DOMContentLoaded", () => {
       todos = [...initialTodos]; // 기본 데이터로 설정
     }
   };
+
   /****** 🍀 우측 상단 날짜 *********/
   const today = new Date();
   let date = document.createElement("p");
@@ -112,7 +113,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // 드롭다운 및 태그 리스트 업데이트
     renderDropDownList();
-    renderTagContainer(newTag);
+    renderSingleTagContainer(newTag);
 
     //입력 필드 초기화
     tagInput.value = "";
@@ -121,7 +122,7 @@ document.addEventListener("DOMContentLoaded", () => {
   /******** 🍀 태그 별 상자 랜더링 *******/
   const tagList = document.getElementById("todo-list-container");
   //  태그 리스트 업데이트 함수
-  const renderTagContainer = (newTag) => {
+  const renderSingleTagContainer = (newTag) => {
     // 가장 바깥 리스트 감싸는 div 생성
     const todoList = document.createElement("div");
     //클래스, id, 배경색 추가
