@@ -297,7 +297,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (existingTag) {
       // 기존 태그에 할 일이 있는 경우 → 해당 태그의 todos 배열에 추가
       existingTag.todos.push(newTodo);
-    } else return alert("에러");
+    } else return alert("태그를 선택해주세요.");
 
     //세션에 저장
     sessionStorage.setItem("todos", JSON.stringify(todos));
@@ -307,7 +307,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // 입력 필드 초기화
     document.getElementById("todo-input-text").value = "";
     document.getElementById("todo-input-date").value = "";
-    document.getElementById("add-tag").value = "";
+    document.getElementById("add-tag").value = "기본";
   };
 
   /******** 🍀 할일 삭제 함수 *******/
@@ -387,7 +387,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
   addButton.addEventListener("click", addTodo);
-  addEventListener("keydown", function (e) {
+  addEventListener("keyup", function (e) {
     if (e.key === "Enter" && document.getElementById("todo-input-text").value) {
       addTodo();
     }
