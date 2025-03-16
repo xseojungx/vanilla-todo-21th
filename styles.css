@@ -320,3 +320,6 @@ main {
   text-align: left;
   margin-left: 4px;
 }
+.delete-btn {
+  cursor: pointer;
+}
