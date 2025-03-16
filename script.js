@@ -337,7 +337,22 @@ document.addEventListener("DOMContentLoaded", () => {
   initial();
 
   document.getElementById("add-new-tag").addEventListener("click", addTag);
+  addEventListener("keydown", function (e) {
+    const tagInput = document.getElementById("tag-input-text");
+    if (
+      e.key === "Enter" &&
+      tagInput.value &&
+      tagInput === document.activeElement
+    ) {
+      addTag();
+    }
+  });
   addButton.addEventListener("click", addTodo);
+  addEventListener("keydown", function (e) {
+    if (e.key === "Enter" && document.getElementById("todo-input-text").value) {
+      addTodo();
+    }
+  });
   renderDropDownList();
   renderTags();
   renderTodos();
