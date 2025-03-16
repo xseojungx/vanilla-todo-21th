@@ -19,6 +19,31 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   };
 
+  //디데이 계산과 오늘 할 일 개수 카운트 하는데 공통으로 쓰여서 빼놓음
+  const isToday = (dateString) => {
+    today.setHours(0, 0, 0, 0); // 시간 초기화 (자정 기준)
+    const targetDate = new Date(dateString); // 목표 날짜
+    targetDate.setHours(0, 0, 0, 0); // 시간 초기화
+
+    const diffTime = targetDate - today; // 밀리초 단위 차이 계산
+    const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24)); // 일 단위 변환
+    return { targetDate, diffDays };
+  };
+
+  /****** 🍀 오늘 투두 개수 *********/
+  let count = 0;
+  const initialTodoCount = () => {
+    todos.map((tag) => {
+      tag.todos.forEach((todo) => {
+        const { diffDays } = isToday(todo.date);
+        if (diffDays === 0) {
+          count++;
+        }
+      });
+    });
+    return count;
+  };
+
   /****** 🍀 우측 상단 날짜 핸들링 *********/
   const today = new Date();
   let date = document.createElement("p");
@@ -31,21 +56,18 @@ document.addEventListener("DOMContentLoaded", () => {
     day: "numeric",
     weekday: "long",
   });
+  let todayTodo = document.createElement("p");
+  //css 입히기
+  todayTodo.setAttribute("id", "todo-display");
+  todayTodo.textContent = "오늘 할 일 : " + initialTodoCount() + "개";
   let dateParent = document.body.children[0].children[1];
   //parent의 0번째 자식으로로 추가하기
-  dateParent.prepend(date);
+  dateParent.prepend(date, todayTodo);
 
   /******** 🍀 날짜, 디데이 포메팅 *******/
   // D-Day 계산 함수
   const getDdayInfo = (dateString) => {
-    today.setHours(0, 0, 0, 0); // 시간 초기화 (자정 기준)
-
-    const targetDate = new Date(dateString); // 목표 날짜
-    targetDate.setHours(0, 0, 0, 0); // 시간 초기화
-
-    const diffTime = targetDate - today; // 밀리초 단위 차이 계산
-    const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24)); // 일 단위 변환
-
+    const { targetDate, diffDays } = isToday(dateString);
     // D-Day 문자열 생성
     let dDayText = "";
     if (diffDays > 0) {
@@ -264,6 +286,12 @@ document.addEventListener("DOMContentLoaded", () => {
       isComplete: false,
     };
 
+    if (isToday(date).diffDays === 0) {
+      count++;
+      const todayTodo = document.getElementById("todo-display");
+      todayTodo.textContent = "오늘 할 일 : " + count + "개";
+    }
+
     let existingTag = todos.find((data) => data.tag === tag);
     console.log(existingTag);
     if (existingTag) {
@@ -294,6 +322,17 @@ document.addEventListener("DOMContentLoaded", () => {
     // 해당 태그 찾기
     let tagIndex = todos.findIndex((tag) => tag.tag === tagName);
     if (tagIndex === -1) return;
+
+    // 해당 todo의 날짜 찾기
+    const todoDate = todos[tagIndex].todos.find(
+      (todo) => todo.id === todoId
+    ).date;
+    //만약 오늘 해야 할 일이었으면, 오늘 할 일 갯수 하나 감소하기.
+    if (isToday(todoDate).diffDays === 0) {
+      count--;
+      const todayTodo = document.getElementById("todo-display");
+      todayTodo.textContent = "오늘 할 일 : " + count + "개";
+    }
 
     // 해당 태그의 todos 배열에서 삭제할 투두 제거
     todos[tagIndex].todos = todos[tagIndex].todos.filter(

@@ -48,6 +48,12 @@ header h1 {
 #date-display {
   font-size: 0.9rem;
   color: #747584;
+  margin: 0 10px;
+}
+#todo-display {
+  font-size: 0.9rem;
+  color: #747584;
+  margin: 0 10px;
 }
 
 /* 투두 입력 영역 */
