@@ -3,7 +3,41 @@ import { initialTagData, initialTodos, color } from "./data.js";
 document.addEventListener("DOMContentLoaded", () => {
   let tags = JSON.parse(sessionStorage.getItem("tags")) || [];
   let todos = JSON.parse(sessionStorage.getItem("todos")) || [];
-
+  /****** 🍀 오늘 투두 개수 *********/
+  let count = 0;
+  const initialTodoCount = () => {
+    todos.map((tag) => {
+      tag.todos.forEach((todo) => {
+        const { diffDays } = isToday(todo.date);
+        if (diffDays === 0) {
+          count++;
+        }
+      });
+    });
+    return count;
+  };
+  /****** 🍀 우측 상단 날짜 핸들링 *********/
+  const today = new Date();
+  const initialTodoRender = async () => {
+    const count = await initialTodoCount();
+    let date = document.createElement("p");
+    //css 입히기
+    date.setAttribute("id", "date-display");
+    //date 포메팅 후 텍스트 추가하기
+    date.textContent = today.toLocaleDateString("ko-KR", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+      weekday: "long",
+    });
+    let todayTodo = document.createElement("p");
+    //css 입히기
+    todayTodo.setAttribute("id", "todo-display");
+    todayTodo.textContent = "오늘 할 일 : " + count + "개";
+    let dateParent = document.body.children[0].children[1];
+    //parent의 0번째 자식으로로 추가하기
+    dateParent.prepend(date, todayTodo);
+  };
   /****** 🍀 초기화 *********/
   const initial = () => {
     // 태그 초기화
@@ -30,41 +64,8 @@ document.addEventListener("DOMContentLoaded", () => {
     return { targetDate, diffDays };
   };
 
-  /****** 🍀 오늘 투두 개수 *********/
-  let count = 0;
-  const initialTodoCount = () => {
-    todos.map((tag) => {
-      tag.todos.forEach((todo) => {
-        const { diffDays } = isToday(todo.date);
-        if (diffDays === 0) {
-          count++;
-        }
-      });
-    });
-    return count;
-  };
-
-  /****** 🍀 우측 상단 날짜 핸들링 *********/
-  const today = new Date();
-  let date = document.createElement("p");
-  //css 입히기
-  date.setAttribute("id", "date-display");
-  //date 포메팅 후 텍스트 추가하기
-  date.textContent = today.toLocaleDateString("ko-KR", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-    weekday: "long",
-  });
-  let todayTodo = document.createElement("p");
-  //css 입히기
-  todayTodo.setAttribute("id", "todo-display");
-  todayTodo.textContent = "오늘 할 일 : " + initialTodoCount() + "개";
-  let dateParent = document.body.children[0].children[1];
-  //parent의 0번째 자식으로로 추가하기
-  dateParent.prepend(date, todayTodo);
-
   /******** 🍀 날짜, 디데이 포메팅 *******/
+
   // D-Day 계산 함수
   const getDdayInfo = (dateString) => {
     const { targetDate, diffDays } = isToday(dateString);
@@ -374,6 +375,7 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   initial();
+  initialTodoRender();
 
   document.getElementById("add-new-tag").addEventListener("click", addTag);
   addEventListener("keydown", function (e) {
@@ -392,6 +394,7 @@ document.addEventListener("DOMContentLoaded", () => {
       addTodo();
     }
   });
+
   renderDropDownList();
   renderTags();
   renderTodos();
